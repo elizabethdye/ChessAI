@@ -8,22 +8,16 @@ import chess.core.Chessboard;
 
 
 public class BasicMaterial implements BoardEval {
-	final static int MAX_VALUE = 20000;
+	final static int MAX_VALUE = 1000;
 	private EnumMap<ChessPiece,Integer> values = new EnumMap<ChessPiece,Integer>(ChessPiece.class);
 	
 	public BasicMaterial() {
-		values.put(ChessPiece.BISHOP, 325);
-		values.put(ChessPiece.KNIGHT, 320);
-		values.put(ChessPiece.PAWN, 100);
-		values.put(ChessPiece.QUEEN, 975);
-		values.put(ChessPiece.ROOK, 500);
+		values.put(ChessPiece.BISHOP, 3);
+		values.put(ChessPiece.KNIGHT, 3);
+		values.put(ChessPiece.PAWN, 1);
+		values.put(ChessPiece.QUEEN, 9);
+		values.put(ChessPiece.ROOK, 5);
 		values.put(ChessPiece.KING, MAX_VALUE);
-		//values.put(ChessPiece.BISHOP, 3);
-		//values.put(ChessPiece.KNIGHT, 3);
-		//values.put(ChessPiece.PAWN, 1);
-		//values.put(ChessPiece.QUEEN, 9);
-		//values.put(ChessPiece.ROOK, 5);
-		//values.put(ChessPiece.KING, MAX_VALUE);
 	}
 
 	@Override

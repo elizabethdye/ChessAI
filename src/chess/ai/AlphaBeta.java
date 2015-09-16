@@ -4,24 +4,20 @@ import chess.core.Chessboard;
 import chess.core.Move;
 
 public class AlphaBeta extends Searcher {
-	private int alpha;
-	private int beta;
+	
 	@Override
 	public MoveScore findBestMove(Chessboard board, BoardEval eval, int depth) {
 		setup(board, eval, depth);
-		alpha = Integer.MIN_VALUE;
-		beta = Integer.MAX_VALUE;
-		boolean isMax = true;
-		MoveScore result = evalMoves(board, eval, depth, isMax);
+		MoveScore result = evalMoves(board, eval, depth);
 		tearDown();
 		return result;
 	}
 	
-	MoveScore evalMoves(Chessboard board, BoardEval eval, int depth, boolean isMax) {
+	MoveScore evalMoves(Chessboard board, BoardEval eval, int depth) {
 		MoveScore best = null;
 		for (Move m: board.getLegalMoves()) {
 			Chessboard next = generate(board, m);
-			MoveScore result = new MoveScore(-evalBoard(next, eval, depth - 1, !isMax), m);
+			MoveScore result = new MoveScore(-evalBoard(next, eval, depth - 1), m);
 			if (best == null || result.getScore() > best.getScore()) {
 				best = result;
 			}
@@ -29,22 +25,15 @@ public class AlphaBeta extends Searcher {
 		return best;
 	}	
 	
-	int evalBoard(Chessboard board, BoardEval eval, int depth, boolean isMax) {
+	int evalBoard(Chessboard board, BoardEval eval, int depth) {
 		if (!board.hasKing(board.getMoverColor()) || board.isCheckmate()) {
 			return -eval.maxValue();
 		} else if (board.isStalemate()) {
 			return 0;
-		} else if (depth == 0 || alpha >= beta) {
+		} else if (depth == 0) {
 			return evaluate(board, eval);
 		} else {
-			int score = evalMoves(board, eval, depth, isMax).getScore();
-			if( isMax ){
-				alpha = score;
-			}
-			else{
-				beta = score;
-			}
-			return score;
+			return evalMoves(board, eval, depth).getScore();
 		}
 	}
 }
