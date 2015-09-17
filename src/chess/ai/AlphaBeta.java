@@ -21,7 +21,7 @@ public class AlphaBeta extends Searcher {
 		MoveScore best = null;
 		for (Move m: board.getLegalMoves()) {
 			Chessboard next = generate(board, m);
-			MoveScore result = new MoveScore(-evalBoard(next, eval, depth - 1, !isMax), m);
+			MoveScore result = new MoveScore(-evalBoard(next, eval, depth - 1, !isMax), m);//swap and negate alpha, beta here
 			if (best == null || result.getScore() > best.getScore()) {
 				best = result;
 			}
