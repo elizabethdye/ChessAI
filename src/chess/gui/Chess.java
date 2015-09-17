@@ -48,7 +48,7 @@ public class Chess extends JFrame implements BoardMoveListener {
 		evaluators = new AIReflector<BoardEval>(BoardEval.class, "chess.ai");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(700,800);
+		setSize(700,725);
 		getContentPane().setLayout(new BorderLayout());
 		
 		board = new BoardPanel();
