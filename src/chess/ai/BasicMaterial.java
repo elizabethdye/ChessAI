@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import chess.core.BoardSquare;
 import chess.core.ChessPiece;
 import chess.core.Chessboard;
+import chess.core.PieceColor;
 
 
 public class BasicMaterial implements BoardEval {
@@ -23,6 +24,8 @@ public class BasicMaterial implements BoardEval {
 	@Override
 	public int eval(Chessboard board) {
 		int total = 0;
+		BoardSquare kingBLoc = board.kingAt(PieceColor.BLACK);
+		BoardSquare kingWLoc = board.kingAt(PieceColor.WHITE);
 		for (BoardSquare s: board.allPieces()) {
 			ChessPiece type = board.at(s);
 			if (values.containsKey(type)) {
