@@ -11,7 +11,7 @@ public class AlphaBeta extends Searcher {
 		setup(board, eval, depth);
 		MoveScore result = evalMoves(board, eval, depth, -1, 1);
 		tearDown();
-		return result;
+		return result;   
 	}
 	
 	MoveScore evalMoves(Chessboard board, BoardEval eval, int depth, int alpha, int beta) {
