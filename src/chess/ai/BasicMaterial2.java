@@ -52,12 +52,15 @@ public class BasicMaterial2 implements BoardEval {
 					else{
 						d = distanceBetween(s, kingBLoc);
 					}
-					if(d < 5.5){
-						total += 1.5*values.get(type);
+					if (type.equals(ChessPiece.KING)){
+						d = 11;
 					}
-					else{
-						total += values.get(type);
-					}
+//					if(d < 5.5){
+						total += (12-d)*values.get(type);
+//					}
+//					else{
+//						total += values.get(type);
+//					}
 				} else {
 					float d;
 					if (mColor.equals(PieceColor.BLACK)){
@@ -66,12 +69,15 @@ public class BasicMaterial2 implements BoardEval {
 					else{
 						d = distanceBetween(s, kingBLoc);
 					}
-					if(d < 5.5){
-						total -= 1.5*values.get(type);
+					if (type.equals(ChessPiece.KING)){
+						d = 11;
 					}
-					else{
-						total -= values.get(type);
-					}
+//					if(d < 5.5){
+						total -= (12 - d)*values.get(type);
+//					}
+//					else{
+//						total -= values.get(type);
+//					}
 				}
 			}
 		}
