@@ -64,12 +64,7 @@ public class BasicMaterial2 implements BoardEval {
 					if (type.equals(ChessPiece.QUEEN)){
 						d = 6;
 					}
-//					if(d < 5.5){
-						total += (12-d)*values.get(type);
-//					}
-//					else{
-//						total += values.get(type);
-//					}
+					total += (12-d)*values.get(type);
 				} else {
 					float d;
 					if (mColor.equals(PieceColor.BLACK)){
@@ -84,12 +79,7 @@ public class BasicMaterial2 implements BoardEval {
 					if (type.equals(ChessPiece.QUEEN)){
 						d = 6;
 					}
-//					if(d < 5.5){
-						total -= (12 - d)*values.get(type);
-//					}
-//					else{
-//						total -= values.get(type);
-//					}
+					total -= (12 - d)*values.get(type);
 				}
 			}
 		}
