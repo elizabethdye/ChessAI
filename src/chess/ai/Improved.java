@@ -73,20 +73,6 @@ public class Improved extends Searcher {
 		return best;
 	}
 	
-	int evalBoardExtension(Chessboard board, BoardEval eval, int depth, int alpha, int beta) {
-		if (!board.hasKing(board.getMoverColor()) || board.isCheckmate()) {
-			return -eval.maxValue();
-		} else if (board.isStalemate()) {
-			return 0;
-		} else if (depth == 0 || alpha >= beta) {
-			return evaluate(board, eval);
-		} else {
-			int score = evalMoves(board, eval, depth, alpha, beta).getScore();
-			alpha = (score > alpha) ? score : alpha;
-			return score;
-		}
-	}
-	
 	private int outlierScore(ArrayList<Integer> scores){
 		scores.sort((s1, s2) -> s1.compareTo(s2));
 		int temp = scores.size() / 4;
