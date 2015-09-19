@@ -9,7 +9,7 @@ import chess.core.PieceColor;
 
 
 public class BasicMaterial implements BoardEval {
-	final static int MAX_VALUE = 20000;
+	final static int MAX_VALUE = 1000;
 	private EnumMap<ChessPiece,Integer> values = new EnumMap<ChessPiece,Integer>(ChessPiece.class);
 	
 	public BasicMaterial() {

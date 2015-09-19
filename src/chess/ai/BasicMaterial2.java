@@ -11,19 +11,25 @@ import chess.core.PieceColor;
 
 
 public class BasicMaterial2 implements BoardEval {
-	final static int MAX_VALUE = 20000;
+	final static int MAX_VALUE = 1000;//10000
 	
 	private HashMap<String, Integer> letters = new HashMap<>();
 	private EnumMap<ChessPiece,Integer> values = new EnumMap<ChessPiece,Integer>(ChessPiece.class);
 	private ChessPiece[] dTypes = {ChessPiece.QUEEN, ChessPiece.ROOK, ChessPiece.BISHOP};
 	
 	public BasicMaterial2() {
-		values.put(ChessPiece.BISHOP, 325);
-		values.put(ChessPiece.KNIGHT, 320);
-		values.put(ChessPiece.PAWN, 100);
-		values.put(ChessPiece.QUEEN, 975);
-		values.put(ChessPiece.ROOK, 500);
+		values.put(ChessPiece.BISHOP, 3);
+		values.put(ChessPiece.KNIGHT, 3);
+		values.put(ChessPiece.PAWN, 1);
+		values.put(ChessPiece.QUEEN, 9);
+		values.put(ChessPiece.ROOK, 5);
 		values.put(ChessPiece.KING, MAX_VALUE);
+//		values.put(ChessPiece.BISHOP, 325);
+//		values.put(ChessPiece.KNIGHT, 320);
+//		values.put(ChessPiece.PAWN, 100);
+//		values.put(ChessPiece.QUEEN, 975);
+//		values.put(ChessPiece.ROOK, 500);
+//		values.put(ChessPiece.KING, MAX_VALUE);
 		
 		letters.put("A", 8);
 		letters.put("B", 7);
@@ -55,6 +61,9 @@ public class BasicMaterial2 implements BoardEval {
 					if (type.equals(ChessPiece.KING)){
 						d = 11;
 					}
+					if (type.equals(ChessPiece.QUEEN)){
+						d = 6;
+					}
 //					if(d < 5.5){
 						total += (12-d)*values.get(type);
 //					}
@@ -71,6 +80,9 @@ public class BasicMaterial2 implements BoardEval {
 					}
 					if (type.equals(ChessPiece.KING)){
 						d = 11;
+					}
+					if (type.equals(ChessPiece.QUEEN)){
+						d = 6;
 					}
 //					if(d < 5.5){
 						total -= (12 - d)*values.get(type);
