@@ -58,8 +58,10 @@ public class Improved extends Searcher {
 			}
 		}
 		
-		if(best.getScore() > outlierScore(scores)){
+		if(best!=null && bestBoard!=null && best.getScore() > outlierScore(scores)){
+			System.out.println("BB: " + bestBoard.toString() + "***Eval: " + eval.toString());
 			int temp = singularExtension(bestBoard, eval).getScore();
+			System.out.println(String.valueOf(temp));
 			return new MoveScore(-temp, bestBoard.getLastMove());
 		}
 		return best;
