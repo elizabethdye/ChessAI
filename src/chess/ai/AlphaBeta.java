@@ -4,7 +4,7 @@ import chess.core.Chessboard;
 import chess.core.Move;
 
 public class AlphaBeta extends Searcher {
-	private final boolean DEBUG = true;
+	private final boolean DEBUG = false;
 	
 	@Override
 	public MoveScore findBestMove(Chessboard board, BoardEval eval, int depth) {
