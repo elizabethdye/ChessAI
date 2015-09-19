@@ -6,7 +6,7 @@ import chess.core.Chessboard;
 import chess.core.Move;
 
 public class Improved extends Searcher {
-	//private final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 	
 	@Override
 	public MoveScore findBestMove(Chessboard board, BoardEval eval, int depth) {
@@ -58,11 +58,17 @@ public class Improved extends Searcher {
 			}
 		}
 		
-		if(best!=null && bestBoard!=null && best.getScore() > outlierScore(scores)){
-			System.out.println("BB: " + bestBoard.toString() + "***Eval: " + eval.toString());
-			int temp = singularExtension(bestBoard, eval).getScore();
-			System.out.println(String.valueOf(temp));
-			return new MoveScore(-temp, bestBoard.getLastMove());
+		if(DEBUG) {
+			System.out.println("BEST: \t\t" + best);
+			System.out.println("BESTBOARD: \t" + bestBoard + "\n");
+		}
+		
+		if(best != null && best.getScore() > outlierScore(scores)){
+			MoveScore ms = singularExtension(bestBoard, eval);
+			if(ms != null){
+				int s = ms.getScore();
+				return new MoveScore(-s, bestBoard.getLastMove());
+			}
 		}
 		return best;
 	}
