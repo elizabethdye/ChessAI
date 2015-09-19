@@ -6,7 +6,7 @@ import chess.core.Chessboard;
 import chess.core.Move;
 
 public class Improved extends Searcher {
-	//private final boolean DEBUG = false;
+	private final boolean DEBUG = false;
 	
 	@Override
 	public MoveScore findBestMove(Chessboard board, BoardEval eval, int depth) {
@@ -58,11 +58,33 @@ public class Improved extends Searcher {
 			}
 		}
 		
-		if(best.getScore() > outlierScore(scores)){
-			int temp = singularExtension(bestBoard, eval).getScore();
-			return new MoveScore(-temp, bestBoard.getLastMove());
+		if(DEBUG) {
+			System.out.println("BEST: \t\t" + best);
+			System.out.println("BESTBOARD: \t" + bestBoard + "\n");
+		}
+		
+		if(best != null && best.getScore() > outlierScore(scores)){
+			MoveScore ms = singularExtension(bestBoard, eval);
+			if(ms != null){
+				int s = ms.getScore();
+				return new MoveScore(-s, bestBoard.getLastMove());
+			}
 		}
 		return best;
+	}
+	
+	int evalBoardExtension(Chessboard board, BoardEval eval, int depth, int alpha, int beta) {
+		if (!board.hasKing(board.getMoverColor()) || board.isCheckmate()) {
+			return -eval.maxValue();
+		} else if (board.isStalemate()) {
+			return 0;
+		} else if (depth == 0 || alpha >= beta) {
+			return evaluate(board, eval);
+		} else {
+			int score = evalMoves(board, eval, depth, alpha, beta).getScore();
+			alpha = (score > alpha) ? score : alpha;
+			return score;
+		}
 	}
 	
 	private int outlierScore(ArrayList<Integer> scores){
