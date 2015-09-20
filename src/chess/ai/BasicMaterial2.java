@@ -100,7 +100,6 @@ public class BasicMaterial2 implements BoardEval {
 				}
 			}
 		}
-		System.out.println(total);
 		return total;
 	}
 
