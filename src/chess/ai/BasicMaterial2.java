@@ -62,7 +62,7 @@ public class BasicMaterial2 implements BoardEval {
 		cTot += colorHere(board, BoardSquare.E5, mColor);
 		cTot += colorHere(board, BoardSquare.D4, mColor);
 		cTot += colorHere(board, BoardSquare.E4, mColor);
-		total += (cTot * 10);
+		total += (cTot * 2);
 		
 		for (BoardSquare s: board.allPieces()) {
 			ChessPiece type = board.at(s);
@@ -81,7 +81,7 @@ public class BasicMaterial2 implements BoardEval {
 					if (type.equals(ChessPiece.QUEEN)){
 						d = 6;
 					}
-					total += (11.5-d)*values.get(type);
+					total += (12-d)+values.get(type);
 				} else {
 					float d;
 					if (mColor.equals(PieceColor.BLACK)){
@@ -96,10 +96,11 @@ public class BasicMaterial2 implements BoardEval {
 					if (type.equals(ChessPiece.QUEEN)){
 						d = 6;
 					}
-					total -= (11.5 - d)*values.get(type);
+					total -= ((12 - d) + values.get(type));
 				}
 			}
 		}
+		System.out.println(total);
 		return total;
 	}
 
