@@ -1,5 +1,9 @@
 package chess.ai;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import chess.core.Chessboard;
 import chess.core.Move;
 
@@ -20,7 +24,7 @@ public class AlphaBetaProto extends Searcher {
 	
 	MoveScore evalMoves(Chessboard board, BoardEval eval, int depth, boolean isMax) {
 		MoveScore best = null;
-		for (Move m: board.getLegalMoves()) {
+		for (Move m: reorder(board.getLegalMoves())) {
 			Chessboard next = generate(board, m);
 			MoveScore result = new MoveScore(-evalBoard(next, eval, depth - 1, !isMax), m);
 			if (best == null || result.getScore() > best.getScore()) {
@@ -50,5 +54,34 @@ public class AlphaBetaProto extends Searcher {
 			}
 			return score;
 		}
+	}
+	
+	private List<Move> reorder(List<Move> movesList){
+		ArrayList<Move> moves = new ArrayList<Move>(movesList);
+		ArrayList<Move> results = new ArrayList<Move>();
+		results.addAll(moves.stream().filter((m) -> m.canCauseCheck()).collect(Collectors.toList()));
+		moves.removeIf((m) -> m.canCauseCheck());
+		if(DEBUG) {
+			System.out.print("Input: " + moves.size());
+			System.out.println("\tOutput: " + results.size());
+		}
+		results.addAll(moves.stream().filter((m) -> m.promotes()).collect(Collectors.toList()));
+		moves.removeIf((m) -> m.promotes());
+		if(DEBUG) {
+			System.out.print("Input: " + moves.size());
+			System.out.println("\tOutput: " + results.size());
+		}
+		results.addAll(moves.stream().filter((m) -> m.captures()).collect(Collectors.toList()));
+		moves.removeIf((m) -> m.captures());
+		if(DEBUG) {
+			System.out.print("Input: " + moves.size());
+			System.out.println("\tOutput: " + results.size());
+		}
+		results.addAll(moves);
+		if(DEBUG) {
+			System.out.print("Input: " + moves.size());
+			System.out.println("\tOutput: " + results.size() + "\n");
+		}
+		return results;
 	}
 }

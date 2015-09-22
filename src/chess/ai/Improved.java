@@ -50,7 +50,7 @@ public class Improved extends Searcher {
 		MoveScore best = null;
 		Chessboard bestBoard = null;
 		ArrayList<Integer> scores = new ArrayList<Integer>();
-		for (Move m: board.getLegalMoves()) {
+		for (Move m: reorder(board.getLegalMoves())) {
 			Chessboard next = generate(board, m);
 			MoveScore result = new MoveScore(-evalBoard(next, eval, 0, 0, 0), m);
 			scores.add(result.getScore());
