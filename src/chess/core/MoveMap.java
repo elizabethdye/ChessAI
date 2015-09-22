@@ -43,13 +43,13 @@ public class MoveMap {
 	}
 	
 	public BitBoard getSafeKingSquares() {
-		MoveMap enemy = board.getOpponentMoveMap();
+		MoveMap enemy = new MoveMap(board, mover.other());
 		BitBoard danger = enemy.getAttackMap();
 		BitBoard allExceptKing = board.allPieces();
-		allExceptKing.clear(board.kingAt(board.getMoverColor()));
-		BitBoard enemiesNotAt = board.allPiecesFor(board.getOpponentColor()).negation();
+		allExceptKing.clear(board.kingAt(mover));
+		BitBoard enemiesNotAt = board.allPiecesFor(mover.other()).negation();
 		for (ChessPiece slider: ChessPiece.slidingPieces) {
-			BitBoard cpAt = board.getAllOf(board.getOpponentColor(), slider);
+			BitBoard cpAt = board.getAllOf(mover.other(), slider);
 			for (BoardSquare start: cpAt) {
 				danger.addAll(moveMaker.retrieveMovesFor(start, slider, allExceptKing).intersection(enemiesNotAt));
 			}
@@ -85,7 +85,7 @@ public class MoveMap {
 	}
 	
 	private void validateVsCheck() {
-		MoveMap enemy = board.getOpponentMoveMap();
+		MoveMap enemy = new MoveMap(board, mover.other());
 		BoardSquare king = board.kingAt(mover);
 		BitBoard safe = getSafeKingSquares();
 		
@@ -131,7 +131,7 @@ public class MoveMap {
 				if (pieceMoves.containsKey(pin)) {
 					pieceMoves.get(pin).retainAll(moveMaker.rayMaskBetween(pieceAt, pin));
 				} else {
-					pawnAdvances.retainAll(moveMaker.cancelledPawnMoves(mover, pin));
+					pawnAdvances.retainAll(moveMaker.cancelledPawnMoves(mover, pin).union(moveMaker.rayMaskBetween(pieceAt, pin)));
 					pawnEast.retainAll(moveMaker.cancelledPawnEast(mover, pin, pieceAt));
 					pawnWest.retainAll(moveMaker.cancelledPawnWest(mover, pin, pieceAt));
 				}
@@ -202,9 +202,9 @@ public class MoveMap {
 	
 	private void addPawnAdvances(ArrayList<Move> result) {
 		for (BoardSquare stop: pawnAdvances) {
-			BoardSquare start = stop.pawnAdvanceFrom(board.getOpponentColor());
+			BoardSquare start = stop.pawnAdvanceFrom(mover.other());
 			if (stop.pawnJumpTarget(mover) && board.at(start) == ChessPiece.EMPTY) {
-				start = start.pawnAdvanceFrom(board.getOpponentColor());
+				start = start.pawnAdvanceFrom(mover.other());
 			} 
 			
 			if (stop.pawnEnd(mover)) {
