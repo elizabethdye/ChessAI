@@ -25,6 +25,8 @@ public class BasicMaterial3 implements BoardEval {
 	@Override
 	public int eval(Chessboard board) {
 		int total = 0;
+		BoardSquare kingBLoc = board.kingAt(PieceColor.BLACK);
+		BoardSquare kingWLoc = board.kingAt(PieceColor.WHITE);
 		PieceColor mColor = board.getMoverColor();
 		PieceColor oColor = board.getOpponentColor();
 		BitBoard bishops = board.getAllOf(mColor, ChessPiece.BISHOP);
@@ -40,8 +42,7 @@ public class BasicMaterial3 implements BoardEval {
 		cTot += colorHere(board, BoardSquare.E5, mColor);
 		cTot += colorHere(board, BoardSquare.D4, mColor);
 		cTot += colorHere(board, BoardSquare.E4, mColor);
-		total += (cTot * 10);
-		
+		total += (cTot * 2);
 		for (BoardSquare s: board.allPieces()) {
 			ChessPiece type = board.at(s);
 			if (board.colorAt(s).equals(mColor)) {
